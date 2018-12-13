@@ -45,5 +45,7 @@ public class CalendarListTest {
 		assertTrue("Bouton Enregistrer et continuer existe pas", cal_list_page.save_and_continue_button.getText().equals("Enregistrer et continuer"));
 		assertTrue("Bouton Annuler existe pas", cal_list_page.cancel_button.getText().equals("Annuler"));
 		cal_list_page.fillNameForm(calendar_name);
+		assertTrue("Mauvaise page", cal_list_page.page_name.isDisplayed());
+		
 	}
 }

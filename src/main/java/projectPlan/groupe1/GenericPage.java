@@ -9,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public abstract class GenericPage {
 
+	private final static String URL ="http://localhost:8180/libreplan/";
 	protected WebDriver driver;
 
 	@FindBy (how = How.XPATH, using="//button[contains(text(),'Ressources')]")

@@ -42,7 +42,7 @@ public class CalendarListPage extends GenericPage {
 	@FindBy (how = How.XPATH, using="//span[@class='cancel-button global-action z-button']")
 	WebElement cancel_button;
 	//OK car première lettre toujours en MAJ
-	@FindBy (how = How.XPATH, using="//input[@type='text'][contains(@id,'Q45')]")
+	@FindBy (how = How.XPATH, using="//input[@type='text'][contains(@id,'45')]")
 	WebElement calendar_name_input;
 
 	@FindBy (how = How.XPATH, using="//input[@type='checkbox'][contains(@id,'d5-real')]")
@@ -52,11 +52,13 @@ public class CalendarListPage extends GenericPage {
 	public void fillNameForm(String calendar_name) {
 		calendar_name_input.clear();
 		calendar_name_input.sendKeys(calendar_name);
-		if(!cb_generate_code.getAttribute("value").equals("on")) {
+		if(!cb_generate_code.getAttribute("value").equals("on")) 
+		{
 			cb_generate_code.click();
 		}
+		save_button.click();
 	}
-	
+
 	//Constructor
 	public CalendarListPage(WebDriver d) {
 		super(d);
