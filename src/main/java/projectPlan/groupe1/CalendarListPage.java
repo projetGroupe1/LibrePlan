@@ -30,6 +30,12 @@ public class CalendarListPage extends GenericPage {
 	//Title "Créer Calendrier"
 	@FindBy (how = How.XPATH, using="//td[text()=\"Créer Calendrier\"]")
 	WebElement create_calendar_title;
+	//Title "Modifier Calendrier"
+	@FindBy (how = How.XPATH, using="//td[contains(text(),\"Modifier Calendrier\")]")
+	WebElement modif_calendar_title;
+	//Title Form "Données de calendrier"
+	@FindBy (how = How.XPATH, using="//span[text()='Données de calendrier']")
+	WebElement modif_calendar_form_title;
 	//Table w/ the form for the new calendar
 	@FindBy (how = How.XPATH, using="//div[contains(@class,\"calendar-data\")]")
 	WebElement calendar_table;
@@ -51,12 +57,15 @@ public class CalendarListPage extends GenericPage {
 	//Get the first calendar to check in the list if created or not
 	@FindBy (how = How.XPATH, using="//span[text()='Calendrier - Test 1']")
 	WebElement added_cal1;
-	//Button "Créer une dérive"
+	//Button "Créer une dérive" for Calendar - Test 1
 	@FindBy (how = How.XPATH, using="//span[@title='Créer une dérive'][ancestor::tr[descendant::td[descendant::span[text()='Calendrier - Test 1']]]]")
 	WebElement derive_cal1_button;
-	//Button "Créer une copie"
+	//Button "Créer une copie" for Calendar - Test 1
 	@FindBy (how = How.XPATH, using="//span[@title='Créer une copie'][ancestor::tr[descendant::td[descendant::span[text()='Calendrier - Test 1']]]]")
 	WebElement copy_cal1_button;
+	//Button "Modifier" for Calendar - Test 1
+	@FindBy (how = How.XPATH, using="//span[@title='Modifier'][ancestor::tr[descendant::td[descendant::span[text()='Calendrier - Test 1']]]]")
+	WebElement modif_cal1_button;
 	//Value of "Type" in the form
 	@FindBy (how = How.XPATH, using="//span[text()='Type']/parent::div/parent::td/following-sibling::td[descendant::span]/descendant::span")
 	WebElement calendar_type_span;
@@ -75,7 +84,15 @@ public class CalendarListPage extends GenericPage {
 	//<tr> of the second calendar
 	@FindBy(how = How.XPATH, using="//tr[descendant::span[contains(text(),'Calendrier - Test 2')]][not(contains(@class,'z-dottree-last'))]")
 	WebElement line_cal2_created;
+
+	@FindBy(how = How.XPATH, using="//span[text()=\"Type d'exception\"]/ancestor::td[following-sibling::td[descendant::input[@type='text']]]/following-sibling::td/descendant::input")
+	WebElement select_type_exception;
 	
+	@FindBy(how = How.XPATH, using="//span[contains(@class,'z-button')][descendant::*[text()='Créer une exception']]")
+	WebElement new_exception_btn; 
+	
+	@FindBy(how = How.XPATH, using="//div[@class='z-errbox-center'][text()=\"Merci de choisir un type d'exception\"]")
+	WebElement error_box_exception;
 	//Fill form with name + check if cb_generate_code is checked + click on sent button
 	//Args : - calendar_name : String to put in the input name
 	//		 - button : WebElement button to click at the end of the fct ("Enregistrer", "Enregistrer et continuer", "Annuler")
@@ -97,7 +114,16 @@ public class CalendarListPage extends GenericPage {
 			}
 		}
 		return false;
-		
+
+	}
+
+	public void checkSelectModifAndAddException() {
+		if(!select_type_exception.getAttribute("value").equals("NO_EXCEPTION"))
+		{
+			select_type_exception.clear();
+			select_type_exception.sendKeys("NO_EXCEPTION");
+		}
+		new_exception_btn.click();
 	}
 	
 	//Constructor

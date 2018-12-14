@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ public class CalendarListTest {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
-	@Test
+	@Ignore
 	public void CAL01() {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -101,8 +102,41 @@ public class CalendarListTest {
 		assertTrue("Message info faux", cal_list_page.checkMsgInfo(msg_info_test2));
 		assertTrue("Test 2 pas créé ou est dérivé de cal 1", cal_list_page.line_cal2_created.isDisplayed());
 	
+	}
 	
-	
-	
+	@Test
+	public void CAL02() {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		String calendar_name = "Calendrier - Test 1"; 
+		String username = "admin";
+		String password = "admin";
+		//STEP1
+		//Fill + submit login form
+		LoginPage login_page = new LoginPage(driver);
+		login_page.fillLoginForm(username, password);
+		PlannerPage planner_page = login_page.submitLoginForm();
+		//STEP2
+		CalendarListPage cal_list_page = planner_page.accessCalendarList(driver);
+		//Assert on the page title
+		assertTrue("Mauvaise page", cal_list_page.page_name.isDisplayed());
+		//Va poser des soucis si marche pas à cause d'un potentiel elementnotfound
+		//A SECURISER 
+		//Assert on the table headers
+		assertTrue("Entête nom non présent", cal_list_page.header_nom.getText().equals("Nom"));
+		assertTrue("Entête Hérité de la date non présent", cal_list_page.header_herit_date.getText().equals("Hérité de la date"));
+		assertTrue("Entête Héritage à jour non présent", cal_list_page.header_heritage_a_jour.getText().equals("Héritages à jour"));
+		assertTrue("Entête Opérations non présent", cal_list_page.header_operations.getText().equals("Opérations"));
+		//Assert on the button "Créer"		
+		assertTrue("Bouton créer non présent", cal_list_page.create_button.getText().equals("Créer"));
+		//STEP3
+		cal_list_page.modif_cal1_button.click();
+		assertTrue("Bouton Enregistrer existe pas", cal_list_page.save_button.isDisplayed());
+		assertTrue("Bouton Enregistrer et continuer existe pas", cal_list_page.save_and_continue_button.isDisplayed());
+		assertTrue("Bouton Annuler existe pas", cal_list_page.cancel_button.isDisplayed());
+		assertTrue("Titre de la page incorrect", cal_list_page.modif_calendar_title.getText().equals("Modifier Calendrier: "+calendar_name));
+		assertTrue("Titre du form incorrect", cal_list_page.modif_calendar_form_title.isDisplayed());
+		//STEP4
+		cal_list_page.checkSelectModifAndAddException();
+		assertTrue("ErrorBox not displayed", cal_list_page.error_box_exception.isDisplayed());
 	}
 }
