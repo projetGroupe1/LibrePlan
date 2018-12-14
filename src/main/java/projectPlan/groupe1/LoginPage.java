@@ -8,13 +8,13 @@ import org.openqa.selenium.support.PageFactory;
 
 
 public class LoginPage extends GenericPage{
-
+	//Username input
 	@FindBy (how = How.XPATH, using="//input[@name='j_username']")
 	WebElement username_input;
-	
+	//Pwd input
 	@FindBy (how = How.XPATH, using="//input[@name='j_password']")
 	WebElement password_input;
-	
+	//Submit button
 	@FindBy (how = How.XPATH, using="//input[@name='button'][@type='submit']")
 	WebElement submit_login;
 	
@@ -24,7 +24,7 @@ public class LoginPage extends GenericPage{
 		PageFactory.initElements(d, this);
 	}
 	
-	//Fill the login page with @username and @password
+	//Fill the login page with "username" and "password"
 	public void fillLoginForm(String username, String password) {
 		username_input.clear();
 		username_input.sendKeys(username);
