@@ -1,9 +1,11 @@
 package projectPlan.groupe1;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.util.Asserts;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -20,7 +22,17 @@ public class AdvancementTypeCreationTest {
 	Actions actions;
 	LoginPage lp; 
 	AdvancementTypeList typeList;
-	private String profile1 = "admin";
+	
+	
+	private String profil = "admin";
+	
+	//variables messages
+	private String messageCheckboxActivé = "la checkbox n'est pas inactive";
+	private String messageButton = "bouton inexistant";
+	
+	//variables noms de page
+	private String pageTypeAvancementList = "Types d'avancement Liste";
+	private String pageCreateType = "Créer Type d'avancement";
 
 	@Before
 	public void preTest() {
@@ -29,42 +41,99 @@ public class AdvancementTypeCreationTest {
 		actions = new Actions(driver);
 		lp= new LoginPage(driver);
 		
+		
 	
 	}
 
 	@Test
 	public void CreationTypeTest ()throws Exception {
-		//"pas de test" 1 - connexion
+		
+		//****************pas de test 1 "Connexion à l'applictaion - Profil Admin" **************** 
+		// connexion
 		driver.get(lp.URL);
 		
-		lp.fillLoginForm(profile1, profile1);
+		lp.fillLoginForm(profil, profil);
 		PlannerPage pp = lp.submitLoginForm();
 	
-		//"pas de test" 2 - access from menu bar 
+		
+		//****************pas de test 2  "Accéder à la page de gestion des types d'avancement""****************
+		// access from menu bar 
 		AdvancementTypeList typeList = pp.accessAdvancementTypes(driver);
 			Thread.sleep(3000);
 		
-		//"pas de test" 2 - to check rowsTitles
-		WebElement titleTab = driver.findElement(By.xpath("//div[@class = 'z-window-embedded-header']"));
-		assertTrue(titleTab.getText() != null);
+		//to check Table and rows Titles
+		assertEquals(pageTypeAvancementList, typeList.getTItle());
+		assertTrue(typeList.getName()!= null);
+		assertTrue(typeList.getActif() !=null)
+		assertTrue (typeList.getPreset() != null);
+		assertTrue (typeList.getOperations() != null);
+		assertTrue (typeList.getCreateButton() != null);
 		
-		WebElement rowName = driver.findElement(By.xpath("//div[@class = 'z-column-cnt'][text() = 'Nom']"));
-		assertTrue(rowName.getText() != null);
-	
-		WebElement rowActivated = driver.findElement(By.xpath("//div[@class = 'z-column-cnt'][text() = 'Activé']"));
-		assertTrue (rowActivated.getText() != null);
 		
-		WebElement rowPreset = driver.findElement(By.xpath("//div[@class = 'z-column-cnt'][text() = 'Prédéfini']"));
-		assertTrue (rowPreset.getText() != null);
+		//****************pas de test 3 "Créer un type d'avancement - Accès au formulaire de création" ****************
 		
-		WebElement rowOperations = driver.findElement(By.xpath("//div[@class = 'z-column-cnt'][text() = 'Opérations']"));
-		assertTrue (rowOperations.getText() != null);
-		
-		//"pas de test" 3 -clic createButton
+		//click on createButton
 		AdvancementTypeCreation typeCreation = typeList.createType();
 		
-		//"pas de test" 3 -clic createButton
-		System.out.println(typeCreation.getTitle());
+		
+		// to check title
+		assertEquals(pageCreateType, typeCreation.getTitle());
+		//to check inputs
+		assertTrue("L'input n'est pas vide",  typeCreation.getName() == null);
+		assertEquals("100,00", typeCreation.getMaxValue());
+		assertEquals("0,1000", typeCreation.getPrecision());
+		assertEquals("User", typeCreation.getType());
+		
+		
+		//to check checkboxes
+		assertTrue ("La checkbox n'est pas n'est pas cochée par défaut", typeCreation.getChecboxActif().isSelected());
+		assertFalse ("La checkbox est  cochée par défaut", typeCreation.getcheckboxPourcentage().isSelected() );
+		
+		//to check buttons
+		assertTrue(messageButton, typeCreation.getsaveButton() != null);
+		assertTrue(messageButton, typeCreation.getsaveAndContinue() != null);
+		assertTrue(messageButton, typeCreation.getCancelButton() !=null);
+		
+		
+		//****************pas de test 4 "Créer un type d'avancement - sans pourcentage "**************** 
+		//to fill the form
+		typeList = typeCreation.fillTheForm();
+		
+		//to check if we are in TypeAdvancementList
+		assertEquals( pageTypeAvancementList, typeList.getTItle());
+		
+		//to check the message
+		String messageAvancement = "Type d'avancement 'Type avancement - Test1' est enregistré";
+		assertEquals(messageAvancement, typeList.getmessageTypeAdvancement());
+		
+		//type d'avancement créé test présent dans tableau faire boucle sur tableau
+		
+		
+		//****************pas de test 5 "Créer un type d'avancement - Accès au formulaire "**************** 
+		//click on createButton
+		typeCreation = typeList.createType();
+		
+		
+		// to check title
+		assertEquals (pageCreateType, typeCreation.getTitle());
+		
+		//****************pas de test 6 "Créer un type d'avancement - sans pourcentage 1/2 "**************** 
+		typeCreation.fillWithoutSend();
+		assertTrue(messageCheckboxActivé, typeCreation.checkboxPourcentage.isEnabled());
+		
+		//****************pas de test 7 "Créer un type d'avancement - sans pourcentage 2/2 "****************
+		
+		typeCreation.fillTheForm2();
+		String messageAvancement2 = "Type d'avancement 'Type avancement - Test2' est enregistré";
+		assertEquals(messageAvancement2, typeCreation.getMessageTypeAdvancement2());
+		String messageTitle = "Modifier Type d'avancement: Type d'avancement - Test 2";
+		assertEquals(messageTitle, typeCreation.getTitle());
+		
+		//****************pas de test 8 "Retour à la page de gestion des types d'avancement "****************
+		typeList = typeCreation.Cancel();
+		assertEquals( pageTypeAvancementList, typeList.getTItle());
+		//****************pas de test 9 "Conformité du type d'avancement ajouté  "****************
+		//parcourir tableau
 	}
 
 }
