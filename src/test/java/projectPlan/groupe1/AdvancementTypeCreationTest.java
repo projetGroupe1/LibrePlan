@@ -28,8 +28,6 @@ public class AdvancementTypeCreationTest {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		actions = new Actions(driver);
 		lp= new LoginPage(driver);
-		
-	
 	}
 
 	@Test
@@ -42,7 +40,7 @@ public class AdvancementTypeCreationTest {
 	
 		//"pas de test" 2 - access from menu bar 
 		AdvancementTypeList typeList = pp.accessAdvancementTypes(driver);
-			Thread.sleep(3000);
+		Thread.sleep(3000);
 		
 		//"pas de test" 2 - to check rowsTitles
 		WebElement titleTab = driver.findElement(By.xpath("//div[@class = 'z-window-embedded-header']"));
