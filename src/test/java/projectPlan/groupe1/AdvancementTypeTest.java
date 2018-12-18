@@ -2,8 +2,6 @@ package projectPlan.groupe1;
 
 import static org.junit.Assert.*;
 
-import java.sql.PreparedStatement;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -11,12 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class AdvancementTypeTest {
 
@@ -55,6 +48,7 @@ public class AdvancementTypeTest {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 		loginPage = new LoginPage(driver);
+		db = new DataBaseConnection();
 
 	}
 
@@ -197,14 +191,13 @@ public class AdvancementTypeTest {
 				.findElement(By.xpath("descendant::span[@title='Modifier']")).isDisplayed());
 		assertTrue(messageButton + "supprimé", typeList.findLastColInTab(test2)
 				.findElement(By.xpath("descendant::span[@title='Supprimer']")).isDisplayed());
-		System.out.println("test fini");
+		
 	}
 	
 	@After
 	public void cleanAndQuit() throws Exception {
-		System.out.println("je suis passée par la première requête");
+		
 			db.deleteData(tableType, request);
-			System.out.println("je suis passée par la pdeuième requête");
 			db.deleteData(tableType, request2);
 				
 		driver.close();

@@ -1,4 +1,4 @@
-package librePlan.group1;
+package projectPlan.groupe1;
 
 import static org.junit.Assert.*;
 
@@ -16,14 +16,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import junit.framework.Assert;
 
-public class PageObject {
+public class CriterionTest {
 
 	WebDriver driver;
 	
-	@Test // 
+	@Test 
 	public void monPremierTestEnPageObject() throws InterruptedException {
 		
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\formation\\Desktop\\SUT\\chromedriver.exe");
+		//System.setProperty("webdriver.chrome.driver", "C:\\Users\\formation\\Desktop\\SUT\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		WebDriverWait wait = new WebDriverWait(driver,10);
@@ -429,7 +429,8 @@ public class PageObject {
 			  assertTrue("button  not present",driver.findElement(By.xpath("//span[contains(text(),'Critère - Test bouton [Sauver et continuer] 2')]")).getText().equals("Type de critère \"Critère - Test bouton [Sauver et continuer] 2\" supprimé"));
 
 			  assertTrue("Pop up not present", driver.findElements(By.xpath("//span[@title='Critère - Test bouton [Sauver et continuer]']")).isEmpty());
-
+			  
+			  driver.quit();
 			  
 		 
 	}

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,7 +18,8 @@ public class CreateProjectTest {
 	LoginPage lp; 
 	private String profil = "admin";
 	
-	@Before
+	//not finished
+	@Ignore
 	public void preTest() {
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -27,7 +29,7 @@ public class CreateProjectTest {
 		
 	
 	}
-	@Test
+	@Ignore
 	public void test() throws InterruptedException {
 		//****************pas de test 1 "Connexion à l'applictaion - Profil Admin" **************** 
 				// connexion
