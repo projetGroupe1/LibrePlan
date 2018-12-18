@@ -24,7 +24,9 @@ public class LoginPage extends GenericPage{
 		PageFactory.initElements(d, this);
 	}
 	
-	//Fill the login page with "username" and "password"
+	//Fill the login page with sent info
+	// Args : - username : username
+	//		  - password : password
 	public void fillLoginForm(String username, String password) {
 		username_input.clear();
 		username_input.sendKeys(username);
@@ -32,7 +34,7 @@ public class LoginPage extends GenericPage{
 		password_input.sendKeys(password);
 	}
 	
-	//Click on the submit button to log in
+	//Click on the submit button to log in + PageFactory
 	public PlannerPage submitLoginForm() {
 		submit_login.click();
 		return PageFactory.initElements(driver, PlannerPage.class);

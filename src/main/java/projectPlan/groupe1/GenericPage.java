@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public abstract class GenericPage {
 
-	private final static String URL ="http://localhost:8180/libreplan/";
+	public final static String URL ="http://localhost:8180/libreplan/";
 	protected WebDriver driver;
 
 	@FindBy (how = How.XPATH, using="//button[contains(text(),'Ressources')]")
@@ -18,11 +18,12 @@ public abstract class GenericPage {
 	@FindBy (how = How.XPATH, using="//a[contains(@href,'libreplan/resources/criterions/criterions.zul')]")
 	WebElement criterions_link;
 
-	@FindBy (how = How.XPATH, using="//a[contains(@href,'libreplan/advance/advanceTypes.zul')]")
+	@FindBy (how = How.XPATH, using="//a[contains(@href,'/libreplan/advance/advanceTypes.zul')]")
 	WebElement advancement_types_link;
 
 	@FindBy (how = How.XPATH, using="//a[contains(@href,'libreplan/calendars/calendars.zul')]")
 	WebElement calendar_list_link;
+	
 	//Constructor
 	public GenericPage(WebDriver d)
 	{
@@ -33,21 +34,21 @@ public abstract class GenericPage {
 	//Mouseover on "Ressources" then click on "critères"
 	public CriterionsPage accessCriterions(WebDriver driver) {
 		Actions actions = new Actions (driver);
-		actions.moveToElement(resources_tab).moveToElement(criterions_link).click().build().perform();
+		actions.moveToElement(resources_tab).pause(1000).moveToElement(criterions_link).click().build().perform();
 		return PageFactory.initElements(driver, CriterionsPage.class);
 	}
 
 //	//Mouseover on "Ressources" then click on "advancement_types_link"
 //	public AdvancementTypesPage accessAdvancementTypes(WebDriver driver) {
 //		Actions actions = new Actions (driver);
-//		actions.moveToElement(resources_tab).moveToElement(advancement_types_link).click().build().perform();
+//		actions.moveToElement(resources_tab).pause(1000).moveToElement(advancement_types_link).click().build().perform();
 //		return PageFactory.initElements(driver, AdvancementTypesPage.class);
 //	}
 
 	//Mouseover on "Ressources" then click on "advancement_types_link"
 	public CalendarListPage accessCalendarList(WebDriver driver) {
 		Actions actions = new Actions (driver);
-		actions.moveToElement(resources_tab).moveToElement(calendar_list_link).click().build().perform();
+		actions.moveToElement(resources_tab).pause(1000).moveToElement(calendar_list_link).click().build().perform();
 		return PageFactory.initElements(driver, CalendarListPage.class);
 	}
 }

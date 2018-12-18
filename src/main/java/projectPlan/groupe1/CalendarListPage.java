@@ -2,6 +2,7 @@ package projectPlan.groupe1;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -84,15 +85,67 @@ public class CalendarListPage extends GenericPage {
 	//<tr> of the second calendar
 	@FindBy(how = How.XPATH, using="//tr[descendant::span[contains(text(),'Calendrier - Test 2')]][not(contains(@class,'z-dottree-last'))]")
 	WebElement line_cal2_created;
-
+	//Select of the exception type
 	@FindBy(how = How.XPATH, using="//span[text()=\"Type d'exception\"]/ancestor::td[following-sibling::td[descendant::input[@type='text']]]/following-sibling::td/descendant::input")
 	WebElement select_type_exception;
-	
+	//New exception button
 	@FindBy(how = How.XPATH, using="//span[contains(@class,'z-button')][descendant::*[text()='Créer une exception']]")
 	WebElement new_exception_btn; 
-	
-	@FindBy(how = How.XPATH, using="//div[@class='z-errbox-center'][text()=\"Merci de choisir un type d'exception\"]")
+	//Errorbox no exception selected
+	@FindBy(how = How.XPATH, using="//div[@title='Allez sur le mauvais champ'][contains(@class,'z-arrow-l')][descendant::div[contains(@class,'z-errbox-close')]][descendant::div[text()=\"Merci de choisir un type d'exception\"]]")
 	WebElement error_box_exception;
+	//Errorbox no ending date for the exception
+	@FindBy(how = How.XPATH, using="//div[@title='Allez sur le mauvais champ'][contains(@class,'z-arrow-l')][descendant::div[contains(@class,'z-errbox-close')]][descendant::div[text()=\"Merci de choisir une date de fin pour l'exception\"]]")
+	WebElement error_box_date_exception;
+	//Button for the exception select
+	@FindBy(how = How.XPATH, using="//i[@class='z-combobox-btn']")
+	WebElement combobox_exception_btn;
+	//Input for the starting date exception
+	@FindBy(how = How.XPATH, using="//span[text()='Période']/ancestor::tr[1]/descendant::input[@class='z-datebox-inp'][1]")
+	WebElement input_start_date_excep;
+	//Input for the ending date exception
+	@FindBy(how = How.XPATH, using="//span[text()='Période']/ancestor::tr[1]/descendant::input[@class='z-datebox-inp'][2]")
+	WebElement input_end_date_excep;
+	//Button for the ending date exception to trigger the div
+	@FindBy(how = How.XPATH, using="//span[text()='Période']/ancestor::tr[1]/descendant::i[@class='z-datebox-btn'][2]")
+	WebElement btn_end_date_excep;
+	//List of all the td from the exception table
+	@FindBy(how = How.XPATH, using="//fieldset[descendant::span[text()='Liste des exceptions']]/descendant::div[@class='z-listbox-body']/descendant::tr[contains(@class,'z-listitem')]/td")
+	List<WebElement> list_td_exception_table;
+	//List of all the values of the day properties (below the calendar on the left)
+	@FindBy (how = How.XPATH, using="//div[@class='day-details z-grid']/div[@class='z-grid-body']/descendant::tr[contains(@class,'day-details')]/td[2]")
+	List<WebElement> list_value_td_day_properties;
+	//List of all the normal effort input
+	@FindBy (how = How.XPATH, using="//span[text()='Effort normal:']/ancestor::td[1]/following-sibling::td[descendant::table][1]/descendant::input")
+	List<WebElement> list_norm_eff_inp;
+	//List of all the additional effort input
+	@FindBy (how = How.XPATH, using="//span[text()='Effort en heures supplémentaires:']/ancestor::td[1]/following-sibling::td[descendant::table][1]/descendant::input[@type='text']")
+	List<WebElement> list_sup_eff_inp;
+	//Button to update the exception
+	@FindBy (how = How.XPATH, using="//td[contains(text(),\"Mettre à jour l'exception\")]/ancestor::span")
+	WebElement update_excep_btn;
+	//Input to get the generated code
+	@FindBy (how = How.XPATH, using="//span[text()='Code']/ancestor::td/following-sibling::td/descendant::input[@type='text'][@disabled]")
+	WebElement generated_code_inp;
+	
+	//Fill the form for the normal and supp effort
+	//Args : - @norm1 : normal effort (hours)
+	//		 - @norm2 : normal effort (minutes)
+	//		 - @sup1 : Additional effort (hours)
+	//		 - @sup2 : Additional effort (minutes)
+	public void fillEffortForm(String norm1, String norm2, String sup1, String sup2)
+	{
+		list_norm_eff_inp.get(0).clear();
+		list_norm_eff_inp.get(1).clear();
+		list_norm_eff_inp.get(0).sendKeys(norm1);
+		list_norm_eff_inp.get(1).sendKeys(norm2);
+		list_sup_eff_inp.get(0).clear();
+		list_sup_eff_inp.get(1).clear();
+		list_sup_eff_inp.get(0).sendKeys(sup1);
+		list_sup_eff_inp.get(1).sendKeys(sup2);
+		update_excep_btn.click();
+	}
+	
 	//Fill form with name + check if cb_generate_code is checked + click on sent button
 	//Args : - calendar_name : String to put in the input name
 	//		 - button : WebElement button to click at the end of the fct ("Enregistrer", "Enregistrer et continuer", "Annuler")
@@ -105,7 +158,8 @@ public class CalendarListPage extends GenericPage {
 		}
 		button.click();
 	}
-	//Check if any info message equals "msg" 
+	//Check if any info message equals @msg
+	//return boolean
 	public boolean checkMsgInfo(String msg) {
 		for(WebElement elem : list_msg_info)
 		{
@@ -114,14 +168,21 @@ public class CalendarListPage extends GenericPage {
 			}
 		}
 		return false;
-
 	}
 
-	public void checkSelectModifAndAddException() {
-		if(!select_type_exception.getAttribute("value").equals("NO_EXCEPTION"))
+	//Select sent exception and click the new exception button
+	//Args : - exception_name : exception to select
+	public void checkSelectModifAndAddException(String exception_name) {
+		
+		if(exception_name.equals("")||exception_name.equals("NO_EXCEPTION"))
 		{
-			select_type_exception.clear();
-			select_type_exception.sendKeys("NO_EXCEPTION");
+			combobox_exception_btn.click();
+			driver.findElement(By.xpath("//td[@class='z-comboitem-text'][text()='NO_EXCEPTION']")).click();
+		}
+		else {
+			combobox_exception_btn.click();
+			driver.findElement(By.xpath("//td[@class='z-comboitem-text'][text()='"+exception_name+"']")).click();
+			
 		}
 		new_exception_btn.click();
 	}
