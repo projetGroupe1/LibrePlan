@@ -7,109 +7,97 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 public class AdvancementTypeCreation extends GenericPage {
-
+	//rows
 	@FindBy(how = How.XPATH, using = "//td[contains(@id,'t4-cnt')]")
 	WebElement title;
 
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'45')]")
+	WebElement rowName;
+	
+	//inputs
 	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
 	WebElement inputName;
+	
+	@FindBy(how = How.XPATH, using = "//input[contains(@id,'85-real')]")
+	WebElement checkBoxActif;
 
-<<<<<<< HEAD
-	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
-	WebElement actif;
+	@FindBy(how = How.XPATH, using = "//input[contains(@id,'b5')]")
+	WebElement inputValMax;
 
-	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
-	WebElement valMax;
-
-	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
-	WebElement precision;
-
-	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
-	WebElement type;
-
-	@FindBy(how = How.XPATH, using = "//input[contains(@id,'55')]")
-	WebElement pourcentage;
-
-	public AdvancementTypeCreation(WebDriver d) {
-		super(d);
-
-	}
-
-	// methods to get Strings from WebElements
-=======
-	@FindBy(how = How.XPATH, using = "")
-	WebElement inputMaxValue;
-
-	@FindBy(how = How.XPATH, using = "")
+	@FindBy(how = How.XPATH, using = "//input[contains(@id,'e5')]")
 	WebElement inputPrecision;
-
-	@FindBy(how = How.XPATH, using = "")
-	WebElement inputType;
-
-	@FindBy(how = How.XPATH, using = "")
-	WebElement saveButton;
-
-	@FindBy(how = How.XPATH, using = "")
-	WebElement SaveAndContinueButton;
-
-	@FindBy(how = How.XPATH, using = "")
-	WebElement cancelButton;
 	
-	@FindBy(how = How.XPATH, using ="")
-	WebElement checkboxActif;
 	
-	@FindBy(how = How.XPATH, using ="")
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'h5')]")
+	WebElement spanType;
+
+	@FindBy(how = How.XPATH, using = "//input[contains(@id,'k5')]")
 	WebElement checkboxPourcentage;
 	
+	//buttons
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'l5')]/descendant::td[5]")
+	WebElement saveButtonName;
+	
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'l5')]")
+	WebElement saveButtonToClick;
+
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'m5')]/descendant::td[5]")
+	WebElement SaveAndContinueButton;
+	
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'m5')]")
+	WebElement SaveAndContinueButtonToClick;
+
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'n5')]/descendant::td[5]")
+	WebElement cancelButton;
+	
+	@FindBy(how = How.XPATH, using = "//span[contains(@id,'n5')]")
+	WebElement cancelButtonToClick;
+	
+	//messages
+	@FindBy(how = How.XPATH, using = "//span[@class = 'create-button global-action z-button']")
+	WebElement messageTypeAdvancement;
+	
+	@FindBy(how = How.XPATH, using = "//td[contains(@id,'t4-cnt')]")
+	WebElement titlePageTest2;
+	
 	public AdvancementTypeCreation(WebDriver d) {
 		super(d);
-
+		
 	}
 
 	//to use checkbox in tests
 	public WebElement getChecboxActif() {
-		return checkboxActif;
+		return checkBoxActif;
 	}
 	
 	public WebElement getcheckboxPourcentage() {
 		return checkboxPourcentage;
 	}
-	@FindBy(how = How.XPATH, using = "//span[@class = 'create-button global-action z-button']")
-	WebElement messageTypeAdvancement2;
-	
-	// to check tableTitles
 
->>>>>>> 6530106be531449b47dccedfc2592508f6621142
+	
+	// to get strings
 	public String getTitle() {
 		String titlePage = title.getText();
 		return titlePage;
 	}
-<<<<<<< HEAD
 
-	public String getInputName() {
-		String unitNameInput = inputName.getText();
-		return unitNameInput;
+	public String getRowName() {
+		String name = rowName.getText();
+		return name;
 	}
 
-	public String get (){
-		String actifCase = actif.getText();
+	public String getActif(){
+		String actifCase = checkBoxActif.getText();
 		return actifCase;
 	}
-
-	public AdvancementTypeCreationTest fillTheForm() {
-		inputName.click();
-		inputName.sendKeys("");
-		return PageFactory.initElements(driver, AdvancementTypeCreationTest.class);
-	}
-=======
-	
-	public String getName() {
+		
+	public String getInputName() {
 		String name = inputName.getText();
 		return name;
 	}
 
-	public String getMaxValue() {
-		String maxValue = inputMaxValue.getText();
+	public String getInputMaxValue() {
+		String maxValue = inputValMax.getText();
 		return maxValue;
 	}
 
@@ -119,12 +107,12 @@ public class AdvancementTypeCreation extends GenericPage {
 	}
 
 	public String getType() {
-		String type = inputType.getText();
+		String type = spanType.getText();
 		return type;
 	}
 
 	public String getsaveButton() {
-		String saveBouton = saveButton.getText();
+		String saveBouton = saveButtonName.getText();
 		return saveBouton;
 	}
 	
@@ -138,41 +126,57 @@ public class AdvancementTypeCreation extends GenericPage {
 		return cancel;
 	}
 	
-	public String getMessageTypeAdvancement2() {
-		String message2 = messageTypeAdvancement2.getText();
+	//to get defaultValue
+	public String getMaxValueVal() {
+		String valueMax =  inputValMax.getAttribute("value");
+		return valueMax;
+	}
+	
+	public String getPrecisionVal() {
+		String precisionVal =  inputPrecision.getAttribute("value");
+		return precisionVal;
+	}
+	
+	public String getTitlePageTest2() {
+		String titlePage2 = titlePageTest2.getText();
+		return titlePage2;
+	}
+	
+	//to get checkbox
+	public WebElement getMaxValueElement() {
+		return inputValMax;
+	}
+	
+	public String getMessageTypeAdvancement() {
+		String message2 = messageTypeAdvancement.getText();
 		return message2;
 	}
 
 	//toFill and send the Form for the first test
-	public AdvancementTypeList fillTheForm() {
-		inputName.click();
+	public AdvancementTypeList fillTheForm() throws InterruptedException {
+		
 		inputName.sendKeys("Type avancement - Test 1");
-		checkboxActif.isEnabled();
-		inputMaxValue.clear();
-		inputMaxValue.sendKeys("10,00");
-		saveButton.click();
+		checkBoxActif.click();
+		inputValMax.clear();
+		inputValMax.sendKeys("10,00");
+		saveButtonToClick.click();
 		return PageFactory.initElements(driver, AdvancementTypeList.class);
 	}
->>>>>>> 6530106be531449b47dccedfc2592508f6621142
 
 	//to fill the form for the second test without sending for test and to put in fillTheForm2 to validate
 	public void fillWithoutSend() {
-		inputName.click();
-		inputName.clear();
 		inputName.sendKeys("Type avancement - Test 2");
 		checkboxPourcentage.click();
 	}
-	//toFill and saveToContinue the Form for the second test 
-	public void fillTheForm2() {
-		fillWithoutSend();
-		SaveAndContinueButton.click();
+	//to saveToContinue the Form for the second test 
+	public void saveTheForm2() {
+		SaveAndContinueButtonToClick.click();
 		
 	}
 	
 	//to click to cancel and go to pageList
-	public AdvancementTypeList Cancel() {
-
-		cancelButton.click();
+	public AdvancementTypeList cancel() {
+		cancelButtonToClick.click();
 		return PageFactory.initElements(driver, AdvancementTypeList.class);
 	}
 	
