@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -23,7 +24,7 @@ public class AdvancementTypeTest {
 	LoginPage loginPage;
 	AdvancementTypeList typeList;
 	DataBaseConnection db;
-
+ 
 	private String profil = "admin";
 	private String test1 = "Type avancement - Test 1";
 	private String test2 = "Type avancement - Test 2";
@@ -36,10 +37,18 @@ public class AdvancementTypeTest {
 	private String messageTest2saved = "Type d'avancement \"Type avancement - Test 2\" enregistré";
 	private String titleMessageTest2 = "Modifier Type d'avancement: Type avancement - Test 2";
 
-	// variables noms de page web
+	// var web pages names
 	private String varPageTypeAvancementList = "Types d'avancement Liste";
 	private String varPageCreateType = "Créer Type d'avancement";
 
+	
+	//var for delete data in database
+	 String tableType = "advance_type";
+	 String request = "DELETE FROM advance_type WHERE unit_name LIKE ('"+test1+"')";
+	 String request2 = "DELETE FROM advance_type WHERE unit_name LIKE ('"+test2+"')";
+	
+	
+	
 	@Before
 	public void preTest() {
 		//instanciation  drivers and loginPage(accueil)
@@ -55,8 +64,9 @@ public class AdvancementTypeTest {
 		/****************
 		 * Pas de test 1 "Connexion à l'applictaion - Profil Admin"
 		 ****************/
-
+		//to connect to webPage
 		driver.get(loginPage.URL);
+		
 		//call  method to fill the connexionPage 
 		loginPage.fillLoginForm(profil, profil);
 
@@ -87,7 +97,7 @@ public class AdvancementTypeTest {
 		AdvancementTypeCreation typeCreation = typeList.createType();
 
 		// to check title
-		assertEquals("Vous n'êtes pas sur la page création", varPageCreateType, typeCreation.getTitle());
+		assertEquals("Vous n'êtes pas sur la page "+varPageCreateType, varPageCreateType, typeCreation.getTitle());
 
 		// to check inputs
 		assertEquals(messageNomCol + "nom d'unité", "Nom d'unité", typeCreation.getRowName());
@@ -96,8 +106,8 @@ public class AdvancementTypeTest {
 		assertEquals("pas trouvé par défaut User", "User", typeCreation.getType());
 
 		// to check checkboxes
-		assertTrue("La checkbox n'est pas n'est pas cochée par défaut", typeCreation.getChecboxActif().isSelected());
-		assertFalse("La checkbox est  cochée par défaut", typeCreation.getcheckboxPourcentage().isSelected());
+		assertTrue("La checkbox n'est pas cochée par défaut", typeCreation.getChecboxActif().isSelected());
+		assertFalse("La checkbox est cochée par défaut", typeCreation.getcheckboxPourcentage().isSelected());
 
 		// to check buttons
 		assertTrue(messageButton, typeCreation.getsaveButton() != null);
@@ -125,9 +135,9 @@ public class AdvancementTypeTest {
 		assertFalse("La checkbox Activité est cochée", typeList.findActivateInTab(test1).isSelected());
 		assertTrue(messageCheckboxActivé,
 				typeList.getCheckPredefiniDisabled().getAttribute("disabled") != null);
-		assertTrue("bouton modifié non trouvé", typeList.findLastColInTab(test1)
+		assertTrue(messageButton + "modifié", typeList.findLastColInTab(test1)
 				.findElement(By.xpath("descendant::span[@title='Modifier']")).isDisplayed());
-		assertTrue("bouton supprimé non trouvé", typeList.findLastColInTab(test1)
+		assertTrue(messageButton +"supprimé", typeList.findLastColInTab(test1)
 				.findElement(By.xpath("descendant::span[@title='Supprimer']")).isDisplayed());
 
 		/**************
@@ -138,7 +148,7 @@ public class AdvancementTypeTest {
 		typeCreation = typeList.createType();
 
 		// to check title
-		assertEquals("Vous n'êtes pas sur la page création", "Créer Type d'avancement", typeCreation.getTitle());
+		assertEquals("Vous n'êtes pas sur la page création", varPageCreateType, typeCreation.getTitle());
 
 		/*****************
 		 * Pas de test 6 "Créer un type d'avancement - sanspourcentage 1/2 "
@@ -168,7 +178,7 @@ public class AdvancementTypeTest {
 		typeList = typeCreation.cancel();
 
 		// to check if we are in pageList
-		assertEquals("Vous n'êtes pas sur la page type d'avancement liste", "Types d'avancement Liste",
+		assertEquals("Vous n'êtes pas sur la page " + varPageTypeAvancementList, varPageTypeAvancementList,
 				typeList.getTitle());
 
 		/****************
@@ -178,22 +188,27 @@ public class AdvancementTypeTest {
 		assertEquals("nomType non trouvé", test2, typeList.findNameInTab(test2));
 		assertFalse("La checkbox Activité n'est pas cochée", typeList.findActivateInTab(test2)
 				.findElement(By.xpath("following::input")).getAttribute("disabled") == null);
-		assertTrue("la checkbox Activité n'est pas inaccessible", typeList.findActivateInTab(test2)
+		assertTrue(messageCheckboxActivé + ": Activité", typeList.findActivateInTab(test2)
 				.findElement(By.xpath("following::input")).getAttribute("disabled") != null);
 		assertFalse("la checkbox Prédéfini est coché", typeList.findPresetInTab(test2).isSelected());
-		assertTrue("la checkbox Prédéfini n'est pas inaccessible",
+		assertTrue(messageCheckboxActivé + " : Prédéfini",
 				typeList.getCheckPredefiniDisabled().getAttribute("disabled") != null);
-		assertTrue("bouton modifié non trouvé", typeList.findLastColInTab(test2)
+		assertTrue(messageButton + "modifié", typeList.findLastColInTab(test2)
 				.findElement(By.xpath("descendant::span[@title='Modifier']")).isDisplayed());
-		assertTrue("bouton supprimé non trouvé", typeList.findLastColInTab(test2)
+		assertTrue(messageButton + "supprimé", typeList.findLastColInTab(test2)
 				.findElement(By.xpath("descendant::span[@title='Supprimer']")).isDisplayed());
-
-		// String request = "DELETE FROM advance_type WHERE unit_name = " + test1;
-		// String request2 = "DELETE FROM advance_type WHERE unit_name = " + test1;
-		// PreparedStatement state = (PreparedStatement)
-		// db.getInstance().prepareStatement(request);
-		// state.executeQuery();
+		System.out.println("test fini");
+	}
+	
+	@After
+	public void cleanAndQuit() throws Exception {
+		System.out.println("je suis passée par la première requête");
+			db.deleteData(tableType, request);
+			System.out.println("je suis passée par la pdeuième requête");
+			db.deleteData(tableType, request2);
+				
+		driver.close();
 
 	}
-
+	
 }

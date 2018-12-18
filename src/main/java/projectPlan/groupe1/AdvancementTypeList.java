@@ -42,9 +42,9 @@ public class AdvancementTypeList extends GenericPage {
 	@FindBy(how = How.XPATH, using = "//div[contains(@class,'message_INFO')]/span")
 	List<WebElement> messages;
 	
-	//<span id="dAVWk7" class="z-label">Type d'avancement "test2" enregistré</span>
 	
-	//tableau
+	
+	//tableau to checks rows 
 	@FindBy(how = How.XPATH, using = "//tr[contains(@id,'m4-bdfaker')]/ancestor::table/tbody[2]/tr/td")
 	List<WebElement> table_data;
 	
@@ -85,7 +85,7 @@ public class AdvancementTypeList extends GenericPage {
 		return buttonCreate;
 	}
 	
-	//to find the right message after insert
+	//loop to find the right message after insert
 	public String getmessages(String message) {
 		for (WebElement element : messages) {
 			if (element.getText().equals(message)) {
@@ -96,7 +96,7 @@ public class AdvancementTypeList extends GenericPage {
 		return "Element not found ";
 	}
 	
-	//to use checkboxs for check diasabled
+	//WebElements checkboxs for check diasabled in test page
 		public WebElement getCheckActivatedDisabled() {
 		return rowActivatedDisabled;
 	}
@@ -110,13 +110,13 @@ public class AdvancementTypeList extends GenericPage {
 	}
 	
 
-	// To click on create
+	// method to click on create
 	public AdvancementTypeCreation createType() {
 		create.click();
 		return PageFactory.initElements(driver, AdvancementTypeCreation.class);
 	}
 	
-	//methods to check the tab after a creation
+	//methods to check the tab after a creation (one method for one test)
 	public String findNameInTab(String test) {
 		for (WebElement element : table_data ) {
 			if (element.getText().equals(test)){
@@ -148,6 +148,7 @@ public class AdvancementTypeList extends GenericPage {
 		return null;
 	
 	}
+
 	public WebElement findLastColInTab(String test) {
 		for (WebElement element : table_data ) {
 			if (element.getText().equals(test)){

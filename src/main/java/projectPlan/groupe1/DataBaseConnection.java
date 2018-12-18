@@ -59,6 +59,7 @@ public class DataBaseConnection {
 			dbDataSet.addTable(table, query);
 			databaseTester.setDataSet(dbDataSet);
 			databaseTester.onSetup();
+			
 		}
 		catch(DataSetException e) {
 
@@ -77,10 +78,14 @@ public class DataBaseConnection {
 			databaseTester.setSetUpOperation(DatabaseOperation.DELETE);
 			databaseTester.setDataSet(dbDataSet);
 			databaseTester.onSetup();
+			databaseTester.getConnection().close();
 		}
 		catch(DataSetException e) {
 
 		}
+	}
+	public void close() throws Exception {
+		//dbDataSet.
 	}
 }
 

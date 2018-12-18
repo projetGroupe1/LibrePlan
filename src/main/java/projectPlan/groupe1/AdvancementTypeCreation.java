@@ -65,7 +65,7 @@ public class AdvancementTypeCreation extends GenericPage {
 		
 	}
 
-	//to use checkbox in tests
+	//to use WebElements in pageTest
 	public WebElement getChecboxActif() {
 		return checkBoxActif;
 	}

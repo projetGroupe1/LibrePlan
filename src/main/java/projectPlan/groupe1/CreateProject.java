@@ -9,6 +9,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class CreateProject extends GenericPage {
+	
+	//pas eu le temps de faire ce cas de test
 
 	@FindBy(how = How.XPATH, using = "//div[@class = 'z-window-embedded-header']")
 	WebElement titleTab;
