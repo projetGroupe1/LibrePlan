@@ -38,12 +38,12 @@ public abstract class GenericPage {
 		return PageFactory.initElements(driver, CriterionsPage.class);
 	}
 
-//	//Mouseover on "Ressources" then click on "advancement_types_link"
-//	public AdvancementTypesPage accessAdvancementTypes(WebDriver driver) {
-//		Actions actions = new Actions (driver);
-//		actions.moveToElement(resources_tab).pause(1000).moveToElement(advancement_types_link).click().build().perform();
-//		return PageFactory.initElements(driver, AdvancementTypesPage.class);
-//	}
+	//Mouseover on "Ressources" then click on "advancement_types_link"
+	public AdvancementTypeList accessAdvancementTypes(WebDriver driver) {
+		Actions actions = new Actions (driver);
+		actions.moveToElement(resources_tab).pause(1000).moveToElement(advancement_types_link).click().build().perform();
+		return PageFactory.initElements(driver, AdvancementTypeList.class);
+	}
 
 	//Mouseover on "Ressources" then click on "advancement_types_link"
 	public CalendarListPage accessCalendarList(WebDriver driver) {
