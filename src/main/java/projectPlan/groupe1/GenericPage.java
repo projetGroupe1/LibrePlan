@@ -45,7 +45,7 @@ public abstract class GenericPage {
 		return PageFactory.initElements(driver, AdvancementTypeList.class);
 	}
 
-	//Mouseover on "Ressources" then click on "advancement_types_link"
+	//Mouseover on "Ressources" then click on "calendar_link"
 	public CalendarListPage accessCalendarList(WebDriver driver) {
 		Actions actions = new Actions (driver);
 		actions.moveToElement(resources_tab).pause(1000).moveToElement(calendar_list_link).click().build().perform();

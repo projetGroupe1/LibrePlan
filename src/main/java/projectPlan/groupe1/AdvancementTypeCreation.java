@@ -27,7 +27,6 @@ public class AdvancementTypeCreation extends GenericPage {
 	@FindBy(how = How.XPATH, using = "//input[contains(@id,'e5')]")
 	WebElement inputPrecision;
 	
-	
 	@FindBy(how = How.XPATH, using = "//span[contains(@id,'h5')]")
 	WebElement spanType;
 

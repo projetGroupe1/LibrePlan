@@ -26,10 +26,10 @@ public class CalendarListTest {
 	@Before
 	public void setUp() {
 		driver.get("http://localhost:8180/libreplan/");
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 	}
 
-	@Test
+	@Ignore
 	public void CAL01() throws Exception {
 
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -45,6 +45,7 @@ public class CalendarListTest {
 		LoginPage login_page = new LoginPage(driver);
 		login_page.fillLoginForm(username, password);
 		PlannerPage planner_page = login_page.submitLoginForm();
+		
 		//STEP2
 		//Click on the nav menu
 		CalendarListPage cal_list_page = planner_page.accessCalendarList(driver);
